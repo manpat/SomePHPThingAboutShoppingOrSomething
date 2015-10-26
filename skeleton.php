@@ -6,8 +6,14 @@
 </head>
 <body>
 	<?php 
-		if(!is_null($error)){
-			echo "<h4 style='color:red'>$error</h4>";
+		$errors = get_errors();
+
+		if(count($errors) > 0) {
+			foreach ($errors as $e) {
+				echo "<h4 style='color:red'>$e</h4>";
+			}
+
+			reset_errors();
 		}
 	?>
 	<div class='content'>

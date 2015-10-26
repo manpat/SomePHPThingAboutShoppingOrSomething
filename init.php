@@ -1,30 +1,28 @@
 <?php
 
+// Init
+//
+// Starts the session and provides some helper functions.
+// Some of this should be moved into api/
+
 session_start();
-
-$error = null;
-
-function set_error($e) {
-	global $error;
-	$error = $e;
-}
 
 function get_in($array, $key, $default = null) {
 	return isset($array[$key]) ? $array[$key] : $default;
 }
 
-function get_products() {
-	$prods = [
-		['name'=>"Test Product", 'price'=>100],
-		['name'=>"Another Product", 'price'=>65],
-		['name'=>"Cheap Product", 'price'=>10],
-	];
+function add_error($e) {
+	$error = get_in($_SESSION, 'error', []);
+	$error[] = $e;
+	$_SESSION['error'] = $error;
+}
 
-	foreach ($prods as $id => &$prod) {
-		$prod['id'] = $id;
-	}
+function get_errors() {
+	return get_in($_SESSION, 'error', []);
+}
 
-	return $prods;
+function reset_errors() {
+	$_SESSION['error'] = [];
 }
 
 ?>
