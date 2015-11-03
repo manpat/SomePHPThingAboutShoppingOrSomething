@@ -10,7 +10,7 @@
 
 		if(count($errors) > 0) {
 			foreach ($errors as $e) {
-				echo "<h4 style='color:red'>$e</h4>";
+				echo "<div style='color:red'>$e</div>";
 			}
 
 			reset_errors();

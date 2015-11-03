@@ -13,7 +13,7 @@ $prodID = null;
 
 function process() {
 	global $prodID;
-	$prodID = get_in($_GET, 'item');
+	$prodID = (int) get_in($_GET, 'item');
 
 	$product = get_product($prodID);
 	if(!$product) {

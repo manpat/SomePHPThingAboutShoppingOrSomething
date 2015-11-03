@@ -12,13 +12,14 @@ function get_products() {
 	];
 
 	foreach ($prods as $id => &$prod) {
-		$prod['id'] = $id;
+		$prod['id'] = (int) $id;
 	}
 
 	return $prods;
 }
 
 function get_product($id) {
+	$id = (int) $id;
 	$products = get_products();
 
 	$productMatch = array_filter($products, function($p) use ($id) {

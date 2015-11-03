@@ -15,7 +15,7 @@ function get_cart() {
 }
 
 function add_to_cart($product) {
-	// get_in
+	
 }
 
 ?>
