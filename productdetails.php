@@ -19,7 +19,7 @@ function render() {
 
 	echo "<p>Product name: ${product['name']}</p>";
 	echo "<p>Product price: ${product['price']}</p>";
-	echo "<form action='addtocart.php' method='GET'>";
+	echo "<form action='action/addtocart.php' method='GET'>";
 		echo "<input type='hidden' name='item' value='${product['id']}'/>";
 		echo "<button type='submit'>Add to cart, yo!</button>";
 	echo "</form>";
@@ -35,9 +35,8 @@ function process() {
 	}
 
 	$product = get_product($pid);
-
 	if(!$product){
-		add_error("Invalid product id");
+		add_error("Invalid product");
 		return;
 	}
 }

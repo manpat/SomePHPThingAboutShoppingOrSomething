@@ -11,13 +11,15 @@
 //		Credit card expiry
 // Goes to CheckoutComplete on confirmation
 
+// https://en.wikipedia.org/wiki/Bank_card_number
+
 require("init.php");
 require("api/cart.php");
 
 function render() { ?>
 	<h1>Checkout, yo!</h1>
 	<form action='checkoutcomplete.php' method='POST'>
-		<table>
+		<table class='form'>
 			<tr><td><label>Full Name</label></td>
 				<td><input type='text' name='name'/></td></tr>
 
@@ -31,14 +33,16 @@ function render() { ?>
 				<td><input type='checkbox' name='gift'/></td></tr>
 				
 			<tr><td><label>Credit Card Type</label></td>
-				<td><input type='radio' name='cardtype' value='visa'>Visa</input></td>
-				<td><input type='radio' name='cardtype' value='mastercard'>Mastercard</input></td></tr>
+				<td><input type='radio' name='cardtype' value='visa'>Visa</input>
+					<input type='radio' name='cardtype' value='mastercard'>Mastercard</input></td></tr>
 
 			<tr><td><label>Credit Card Number</label></td>
 				<td><input type='text' name='cardnum'/></td></tr>
-
-			<tr><td><button type='submit'>Done</button></td></tr>
 		</table>
+
+		<br/>
+
+		<button class='right' type='submit'>Continue</button>
 	</form>
 <?php }
 

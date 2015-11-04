@@ -3,21 +3,25 @@
 require('init.php');
 require('api/product.php');
 
-// Render set of tiles
+// Render set of products
 function render_productlist() {
+	echo "<h1>Products</h1>";
+	
 	echo "<table>";
-	echo "<tr><th>Product</th><th>Price</th></tr>";
+	echo "<thead><th>Product Name</th><th>Price</th></thead>";
+	echo "<tbody>";
 	foreach (get_products() as $product) {
 		render_product($product);
 	}
+	echo "</tbody>";
 	echo "</table>";
 }
 
-// Render individual tile
+// Render individual product
 function render_product($product) {
 	echo "<tr>";
 	echo "<td><a href='productdetails.php?id=${product["id"]}'>${product['name']}</a></td>";
-	echo "<td>${product['price']}</td>";
+	echo "<td width='10%'>${product['price']}</td>";
 	echo "</tr>";
 }
 

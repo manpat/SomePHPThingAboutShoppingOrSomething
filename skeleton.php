@@ -5,7 +5,9 @@
 	<link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
-	<?php 
+	<?php
+		require("navbar.php");
+
 		$errors = get_errors();
 
 		if(count($errors) > 0) {

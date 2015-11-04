@@ -12,6 +12,10 @@ function get_in($array, $key, $default = null) {
 }
 
 function add_error($e) {
+	if(gettype($e) !== "string") {
+		$e = json_encode($e);
+	}
+
 	$error = get_in($_SESSION, 'error', []);
 	$error[] = $e;
 	$_SESSION['error'] = $error;

@@ -4,7 +4,7 @@ require('init.php');
 
 function render(){ ?>
 	<h1>Yo!</h1>
-	<a class='button' href='productlist.php'>Prods</a>
+	<h3>Buy shit n' stuff</h3>
 <?php }
 
 require('skeleton.php');

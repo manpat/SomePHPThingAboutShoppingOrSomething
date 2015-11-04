@@ -5,9 +5,9 @@
 // Adds item $_GET['item'] to cart and immediately
 //	redirects back to ProductDetails 
 
-require_once('init.php');
-require_once('api/cart.php');
-require_once('api/product.php');
+require_once('../init.php');
+require_once('../api/cart.php');
+require_once('../api/product.php');
 
 $prodID = null;
 
@@ -22,10 +22,11 @@ function process() {
 	}
 
 	add_to_cart($product);
+	add_error(json_encode(get_cart()));
 }
 
 process();
 
-header("Location: productdetails.php?id=$prodID");
+header("Location: ../productdetails.php?id=$prodID");
 
 ?>
