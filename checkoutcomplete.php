@@ -79,8 +79,23 @@ function validate_card($str, $type) {
 }
 
 $spent = 0;
+$fieldtrans = [
+	"name" => "Full Name",
+	"phone" => "Phone Number",
+	"address" => "Address",
+	"cardtype" => "Card Type",
+	"cardnum" => "Card Number",
+	"cardexprmonth" => "Card Expiry Month",
+	"cardexpryear" => "Card Expiry Year",
+	"gift" => "Gift Wrapped"
+];
+$vs = [];
 
 function process() {
+	global $fieldtrans;
+	global $spent;
+	global $vs;
+
 	if(count(get_cart()) === 0) {
 		add_error("Cart empty");
 		header("Location: cartview.php");
@@ -97,13 +112,12 @@ function process() {
 		$vs[$p] = $v;
 
 		if(is_null($v) || $v === "") {
-			// TODO: Add a translation map for english field names
-			add_error("Missing $p");
+			add_error("Missing ${fieldtrans[$p]}");
 			$error = true;
 		}
 	}
 
-	$vs["gift"] = get_in($_POST, "gift") !== null;
+	$vs["gift"] = (get_in($_POST, "gift") !== null) ? "Yes":"No";
 
 	// One of the mandatory fields is missing
 	// Bail out
@@ -114,18 +128,33 @@ function process() {
 		bail();
 	}
 
-	global $spent;
 	$spent = calculate_cart_total();
 
+	// Clear cart so user can't rebuy things
 	set_cart([]);
 }
 
 function render() {
+	global $vs;
 	global $spent;
+	global $fieldtrans;
 
 	echo "<h1>Checkout Complete, Yo.</h1>";
+
+	echo "<h4>Details</h4>";
+	echo "<table>";
+	foreach ($vs as $k => $v) {
+		echo "<tr>";
+		echo "<td style='width:20%; font-weight: bold;'>${fieldtrans[$k]}</td>";
+		echo "<td>$v</td>";
+		echo "</tr>";
+	}
+	echo "</table>";
+
+	
+	echo "<br/>";
 	echo "<p>Congratulations. You've wasted $$spent.</p>";
-	echo "<a href='productlist.php' class='button'>Waste more money</a>";
+	echo "<p><a href='productlist.php' class='button'>Waste more money</a></p>";
 	// echo json_encode($_POST);
 }
 
