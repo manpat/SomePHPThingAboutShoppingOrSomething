@@ -125,6 +125,7 @@ function render() {
 
 	echo "<h1>Checkout Complete, Yo.</h1>";
 	echo "<p>Congratulations. You've wasted $$spent.</p>";
+	echo "<a href='productlist.php' class='button'>Waste more money</a>";
 	// echo json_encode($_POST);
 }
 
