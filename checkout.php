@@ -62,9 +62,8 @@ function render() { ?>
 				<td><input type='text' name='cardnum'/></td></tr>
 
 			<tr><td><label>Credit Card Expiry</label></td>
-				<td>
-					<select name='cardexprmonth'><?php generate_month_options(); ?></select>
-					<select name='cardexpryear'><?php generate_year_options(); ?></select>
+				<td><select name='cardexprmonth'> <?php generate_month_options();?> </select>
+					<select name='cardexpryear'> <?php generate_year_options();?> </select>
 				</td></tr>
 		</table>
 
