@@ -10,11 +10,7 @@
 require("init.php");
 require("api/cart.php");
 
-$total = 0;
-
-function render() { 
-	global $total;
-	?>
+function render() { ?>
 	<h1>Cart</h1>
 	<form action='action/cartaction.php' method='POST'>
 		<table>
@@ -37,18 +33,17 @@ function render() {
 		</table>
 		<br/>
 		
-		<div class='right'>Total: $<?php echo $total; ?></div>
+		<div class='right'>Total: $<?php echo calculate_cart_total();?></div>
 		<br/>
 		<br/>
 
 		<button class='right' type='submit' name='action' value='checkout' default>Checkout</button>
 		<button class='right' type='submit' name='action' value='save'>Save</button>
+		<button class='right red' type='submit' name='action' value='clear'>Clear</button>
 	</form>
 <?php }
 
 function render_item($item) {
-	global $total;
-
 	$prod = $item['product'];
 	$price = $prod['price'];
 	$qty = $item['qty'];
@@ -59,8 +54,6 @@ function render_item($item) {
 	echo "<td>$$price</td>";
 	echo "<td><input type='number' style='width:50px;' name='qtys[${prod['id']}]' value='$qty'/></td>";
 	echo "<td>$$subtotal</td>";
-
-	$total += $subtotal;
 }
 
 require("skeleton.php");

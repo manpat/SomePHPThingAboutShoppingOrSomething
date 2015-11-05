@@ -32,13 +32,34 @@ function add_to_cart($product) {
 	set_cart($cart);
 }
 
+function calculate_cart_total() {
+	$total = 0;
+
+	foreach (get_cart() as $v) {
+		$total += $v['product']['price'] * $v['qty'];
+	}
+
+	return $total;
+}
+
+function get_qty_in_cart($pid) {
+	$v = get_in(get_cart(), $pid);
+	if(!$v) return 0;
+
+	return $v['qty'];
+}
+
 function update_cart_quantities($nqtys) {
 	$cart = get_cart();
 	foreach ($nqtys as $pid => $nval) {
 		$pid = (int) $pid;
 
 		if(isset($cart[$pid])) {
-			$cart[$pid]['qty'] = $nval;
+			if($nval > 0){
+				$cart[$pid]['qty'] = $nval;
+			}else{
+				unset($cart[$pid]);
+			}
 		}else{
 			add_error("Tried to update quantity of entity not in cart: $pid");
 		}

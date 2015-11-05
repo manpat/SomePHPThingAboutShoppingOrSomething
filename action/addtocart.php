@@ -22,7 +22,6 @@ function process() {
 	}
 
 	add_to_cart($product);
-	add_error(json_encode(get_cart()));
 }
 
 process();

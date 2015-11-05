@@ -6,6 +6,7 @@
 //	add to cart a product
 
 require('init.php');
+require('api/cart.php');
 require('api/product.php');
 
 $product = null;
@@ -17,11 +18,14 @@ function render() {
 		return;
 	}
 
+	$qty = get_qty_in_cart($product['id']);
+
 	echo "<p>Product name: ${product['name']}</p>";
 	echo "<p>Product price: ${product['price']}</p>";
 	echo "<form action='action/addtocart.php' method='GET'>";
 		echo "<input type='hidden' name='item' value='${product['id']}'/>";
 		echo "<button type='submit'>Add to cart, yo!</button>";
+		echo "<span style='padding-left: 5px'>In cart: $qty</span>";
 	echo "</form>";
 }
 

@@ -10,7 +10,7 @@ require("init.php");
 require("api/cart.php");
 
 function bail() {
-	add_error(json_encode($_POST));
+	add_error($_POST);
 	header("Location: checkout.php");
 	die;	
 }
@@ -77,7 +77,7 @@ function validate_card($str, $type) {
 
 function process() {
 	// Mandatory fields
-	$ps = ["name", "phone", "address", "cardtype", "cardnum"];
+	$ps = ["name", "phone", "address", "cardtype", "cardnum", "cardexprmonth", "cardexpryear"];
 	$vs = []; // Map of fields to values
 	$error = false;
 
@@ -106,6 +106,7 @@ function process() {
 }
 
 function render() {
+	echo "<h1>Checkout Complete, Yo.</h1>"
 	echo json_encode($_POST);
 }
 
