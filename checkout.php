@@ -16,6 +16,28 @@
 require("init.php");
 require("api/cart.php");
 
+function generate_month_options() {
+	$date = new DateTime();
+
+	for($i = 1; $i <= 12; $i++) {
+		$date->setDate(0, $i, 1);
+		echo "<option value='$i'>".$date->format("F")."</option>";
+	}
+}
+
+function generate_year_options() {
+	$date = new DateTime();
+	$yearint = new DateInterval("P1Y");
+
+	// Guestimation
+	for($i = 0; $i <= 25; $i++) {
+		$year = $date->format("Y");
+		$date->add($yearint);
+
+		echo "<option value='$year'>".$year."</option>";
+	}
+}
+
 function render() { ?>
 	<h1>Checkout, yo!</h1>
 	<form action='checkoutcomplete.php' method='POST'>
@@ -28,16 +50,22 @@ function render() { ?>
 
 			<tr><td><label>Address</label></td>
 				<td><input type='text' name='address'/></td></tr>
-				
+
 			<tr><td><label>Gift Wrapped</label></td>
 				<td><input type='checkbox' name='gift'/></td></tr>
-				
+
 			<tr><td><label>Credit Card Type</label></td>
 				<td><input type='radio' name='cardtype' value='visa'>Visa</input>
 					<input type='radio' name='cardtype' value='mastercard'>Mastercard</input></td></tr>
 
 			<tr><td><label>Credit Card Number</label></td>
 				<td><input type='text' name='cardnum'/></td></tr>
+
+			<tr><td><label>Credit Card Expiry</label></td>
+				<td>
+					<select name='cardexprmonth'><?php generate_month_options(); ?></select>
+					<select name='cardexpryear'><?php generate_year_options(); ?></select>
+				</td></tr>
 		</table>
 
 		<br/>

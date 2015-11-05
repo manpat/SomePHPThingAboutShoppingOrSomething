@@ -27,33 +27,30 @@ function validate_card($str, $type) {
 
 	// Check card number length and IIN
 	$len = strlen($str);
-	switch($type) {
-		case "visa": {
-			if($len !== 13 && $len !== 16) {
-				add_error("Invalid card number length for card type visa");
-				return false;
-
-			}else if(substr($str, 0, 1) !== "4") {
-				add_error("Invalid iin for card type visa");
-				return false;
-			}	
-		} break;
-
-		case "mastercard":{
-			$iin = (int) substr($str, 0, 2);
-			if($len !== 16) {
-				add_error("Invalid card number length for card type mastercard");
-				return false;
-
-			}else if($iin < 51 || $iin > 55) {
-				add_error("Invalid iin for card type mastercard");
-				return false;
-			}			
-		} break;
-
-		default:
-			add_error("Invalid card type: $type");
+	if($type === "visa") {
+		if($len !== 13 && $len !== 16) {
+			add_error("Invalid card number length for card type visa");
 			return false;
+
+		}else if(substr($str, 0, 1) !== "4") {
+			add_error("Invalid iin for card type visa");
+			return false;
+		}
+
+	}else if($type === "mastercard") {
+		$iin = (int) substr($str, 0, 2);
+		if($len !== 16) {
+			add_error("Invalid card number length for card type mastercard");
+			return false;
+
+		}else if($iin < 51 || $iin > 55) {
+			add_error("Invalid iin for card type mastercard");
+			return false;
+		}
+
+	}else{
+		add_error("Invalid card type: $type");
+		return false;
 	}
 
 	// Save and strip out validation digit
