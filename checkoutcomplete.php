@@ -10,12 +10,15 @@ require("init.php");
 require("api/cart.php");
 
 function bail() {
-	add_error($_POST);
+	// add_error($_POST);
 	header("Location: checkout.php");
 	die;	
 }
 
 // https://en.wikipedia.org/wiki/Luhn_algorithm
+// visa: 4012888888881881
+// mastercard: 5105105105105100
+
 function validate_card($str, $type) {
 	// Remove whitespace
 	$str = preg_replace('/\s+/', '', $str);
@@ -55,7 +58,7 @@ function validate_card($str, $type) {
 
 	// Save and strip out validation digit
 	$val = (int) substr($str, -1);
-	$str = strrev(substr($str, 0, -1));
+	$str = strrev(substr($str, 0, -1)); // Reverse string
 	$astr = str_split($str); // Convert to array
 
 	// Convert values to integers
@@ -75,7 +78,14 @@ function validate_card($str, $type) {
 	return $checksum === $val;
 }
 
+$spent = 0;
+
 function process() {
+	if(count(get_cart()) === 0) {
+		add_error("Cart empty");
+		header("Location: cartview.php");
+	}
+
 	// Mandatory fields
 	$ps = ["name", "phone", "address", "cardtype", "cardnum", "cardexprmonth", "cardexpryear"];
 	$vs = []; // Map of fields to values
@@ -103,11 +113,19 @@ function process() {
 		add_error("Card validation failed");
 		bail();
 	}
+
+	global $spent;
+	$spent = calculate_cart_total();
+
+	set_cart([]);
 }
 
 function render() {
-	echo "<h1>Checkout Complete, Yo.</h1>"
-	echo json_encode($_POST);
+	global $spent;
+
+	echo "<h1>Checkout Complete, Yo.</h1>";
+	echo "<p>Congratulations. You've wasted $$spent.</p>";
+	// echo json_encode($_POST);
 }
 
 process();
