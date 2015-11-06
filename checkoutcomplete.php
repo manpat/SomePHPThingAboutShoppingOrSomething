@@ -141,8 +141,8 @@ function render() {
 
 	echo "<h1>Checkout Complete, Yo.</h1>";
 
-	echo "<h4>Details</h4>";
 	echo "<table>";
+	echo "<thead><th>Details</th><th></th></thead>";
 	foreach ($vs as $k => $v) {
 		echo "<tr>";
 		echo "<td style='width:20%; font-weight: bold;'>${fieldtrans[$k]}</td>";
@@ -150,10 +150,13 @@ function render() {
 		echo "</tr>";
 	}
 	echo "</table>";
-
 	
 	echo "<br/>";
-	echo "<p>Congratulations. You've wasted $$spent.</p>";
+	echo "<table>";
+		echo "<tr><td style='width:20%; font-weight: bold;'>Money Wasted</td><td>$$spent</td></tr>";
+	echo "</table>";
+
+	echo "<br/>";
 	echo "<p><a href='productlist.php' class='button'>Waste more money</a></p>";
 	// echo json_encode($_POST);
 }

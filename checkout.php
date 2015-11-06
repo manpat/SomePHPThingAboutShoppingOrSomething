@@ -71,6 +71,9 @@ function render() { ?>
 
 		<button class='right' type='submit'>Continue</button>
 	</form>
+
+	<!-- FOR TESTING ONLY  -->
+	<div style='position: absolute; bottom: 10px'>Visa: 4012888888881881</div>
 <?php }
 
 require("skeleton.php");
