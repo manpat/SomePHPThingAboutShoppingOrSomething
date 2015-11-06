@@ -3,7 +3,6 @@
 // Init
 //
 // Starts the session and provides some helper functions.
-// Some of this should be moved into api/
 
 session_start();
 

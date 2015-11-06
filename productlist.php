@@ -1,6 +1,6 @@
 <?php
 
-require('init.php');
+require('api/init.php');
 require('api/product.php');
 
 // Render set of products

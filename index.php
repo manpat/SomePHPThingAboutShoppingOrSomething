@@ -1,6 +1,6 @@
 <?php
 
-require('init.php');
+require('api/init.php');
 
 function render(){ ?>
 	<h1>Yo!</h1>

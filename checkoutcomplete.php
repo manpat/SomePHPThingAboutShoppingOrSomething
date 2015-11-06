@@ -6,7 +6,7 @@
 //	confirmed.
 // 
 
-require("init.php");
+require("api/init.php");
 require("api/cart.php");
 
 function bail() {

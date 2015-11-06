@@ -1,6 +1,6 @@
 <?php
 
-require_once('../init.php');
+require_once('../api/init.php');
 require_once('../api/cart.php');
 
 $action = get_in($_POST, 'action');

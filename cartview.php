@@ -7,7 +7,7 @@
 // Each item should have a price, maybe quantity
 // This should show total price
 
-require("init.php");
+require("api/init.php");
 require("api/cart.php");
 
 function render() { ?>

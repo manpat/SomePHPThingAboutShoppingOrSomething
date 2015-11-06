@@ -5,7 +5,7 @@
 // Adds item $_GET['item'] to cart and immediately
 //	redirects back to ProductDetails 
 
-require_once('../init.php');
+require_once('../api/init.php');
 require_once('../api/cart.php');
 require_once('../api/product.php');
 

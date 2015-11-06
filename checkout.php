@@ -13,7 +13,7 @@
 
 // https://en.wikipedia.org/wiki/Bank_card_number
 
-require("init.php");
+require("api/init.php");
 require("api/cart.php");
 
 function generate_month_options() {

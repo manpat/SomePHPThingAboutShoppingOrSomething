@@ -5,7 +5,7 @@
 // Displays a description of, the price of and the option to
 //	add to cart a product
 
-require('init.php');
+require('api/init.php');
 require('api/cart.php');
 require('api/product.php');
 
