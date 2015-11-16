@@ -8,7 +8,7 @@ function get_comments() {
 	global $comments;
 
 	if($comments === null) {
-		$data = file_get_contents("comments.data");
+		$data = file_get_contents(get_root()."/data/comments.data");
 		if($data === false) {
 			add_error("Comment database open failed");
 			return [];
@@ -26,7 +26,7 @@ function set_comments($coms) {
 
 	$data = json_encode($comments);
 
-	file_put_contents("comments.data", $data);
+	file_put_contents(get_root()."/data/comments.data", $data);
 }
 
 function sanitise_input($value) {

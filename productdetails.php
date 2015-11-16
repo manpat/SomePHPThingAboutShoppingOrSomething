@@ -22,8 +22,10 @@ function render() {
 
 	echo "<p>Product name: ${product['name']}</p>";
 	echo "<p>Product price: ${product['price']}</p>";
-	echo "<form action='action/addtocart.php' method='GET'>";
+	echo "<form action='api/action.php' method='POST'>";
+		echo "<input type='hidden' name='action' value='addtocart'/>";
 		echo "<input type='hidden' name='item' value='${product['id']}'/>";
+		
 		echo "<button type='submit'>Add to cart, yo!</button>";
 		echo "<span style='padding-left: 5px'>In cart: $qty</span>";
 	echo "</form>";

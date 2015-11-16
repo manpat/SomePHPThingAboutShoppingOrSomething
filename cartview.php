@@ -12,7 +12,7 @@ require_once("api/cart.php");
 
 function render() { ?>
 	<h1>Cart</h1>
-	<form action='action/cartaction.php' method='POST'>
+	<form action='api/action.php' method='POST'>
 		<table>
 			<thead>
 				<th>Name</th>
@@ -38,8 +38,8 @@ function render() { ?>
 		<br/>
 
 		<button class='right' type='submit' name='action' value='checkout' default>Checkout</button>
-		<button class='right' type='submit' name='action' value='save'>Save</button>
-		<button class='right red' type='submit' name='action' value='clear'>Clear</button>
+		<button class='right' type='submit' name='action' value='savecart'>Save</button>
+		<button class='right red' type='submit' name='action' value='clearcart'>Clear</button>
 	</form>
 <?php }
 
