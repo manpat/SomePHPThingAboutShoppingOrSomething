@@ -83,10 +83,10 @@ $fieldtrans = [
 	"name" => "Full Name",
 	"phone" => "Phone Number",
 	"address" => "Address",
-	"cardtype" => "Card Type",
-	"cardnum" => "Card Number",
-	"cardexprmonth" => "Card Expiry Month",
-	"cardexpryear" => "Card Expiry Year",
+	"cardtype" => "Credit Card Type",
+	"cardnum" => "Credit Card Number",
+	"cardexprmonth" => "Credit Card Expiry Month",
+	"cardexpryear" => "Credit Card Expiry Year",
 	"gift" => "Gift Wrapped"
 ];
 $vs = [];
