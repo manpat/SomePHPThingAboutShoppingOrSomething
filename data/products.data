@@ -1,5 +1,20 @@
 [
-	{"id": 0, "name":"Test Product", "price":100},
-	{"id": 1, "name":"Another Product", "price":65},
-	{"id": 2, "name":"Cheap Product", "price":10}
+	{	"id": 0, 
+		"name":"Test Product", 
+		"price":100,
+		"img":"dickbutt.png",
+		"description":"This is a top quality product for people who like products a lot"
+	},
+	{	"id": 1, 
+		"name":"Another Product", 
+		"price":65,
+		"img":"dickbutt.png",
+		"description":"This is a mid range product for people who like products but not too much"
+	},
+	{	"id": 2, 
+		"name":"Cheap Product", 
+		"price":10,
+		"img":"dickbutt.png",
+		"description":"This is a product for people who like products but are on a tight budget"
+	}
 ]

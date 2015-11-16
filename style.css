@@ -147,3 +147,80 @@ tbody tr:nth-child(odd) {
 .form td:first-child {
 	width: 25%;
 }
+
+/* Comments */
+
+.comment {
+	width: 100%;
+	background: #444;
+	padding: 10px;	
+	margin-top: 5px;
+	margin-right: 0;
+}
+
+.comment p {
+	margin: 0;
+	margin-top: 10px;
+}
+
+.comment h4 {
+	margin: 0;
+}
+
+h4 small {
+	margin-left: 10px;
+	color: #aaa;
+}
+
+.comment a {
+	font-style: italic;
+	text-decoration: none;
+	color: #aaa;
+}
+
+.commententry {
+	display: block;
+	padding: 10px;
+	background: #444;
+}
+
+form label {
+	width: 50px;
+	display: inline-block;
+}
+form label + input {
+	width: 300px;
+}
+
+.commententry span {
+	display: inline;
+}
+
+.commententry textarea::before {
+	content: '';
+	display: inline-block;
+	width: 50px;
+}
+
+.commententry textarea {
+	vertical-align: middle;
+	width: 84%;
+	max-width: 84%;
+	min-height: 38px;
+	margin: 0;
+}
+
+.commententry button[type='submit'] {
+	vertical-align: middle;
+	float: right;
+	width: 10%;
+}
+
+.clear {
+	clear: both;
+}
+
+.moveoverpls {
+	width: 50px;
+	display: inline-block;
+}

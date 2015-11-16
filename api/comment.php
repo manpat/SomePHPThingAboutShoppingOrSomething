@@ -14,7 +14,12 @@ function get_comments() {
 			return [];
 		}
 
-		$comments = json_decode($data, true);
+		// Convert keys to integers
+		$rawcomments = json_decode($data, true);
+		$comments = [];
+		foreach ($rawcomments as $key => $value) {
+			$comments[(int) $key] = $value;
+		}
 	}
 
 	return $comments;
@@ -24,14 +29,20 @@ function set_comments($coms) {
 	global $comments;
 	$comments = $coms;
 
-	$data = json_encode($comments);
+	// Convert keys to strings
+	$rawcomments = [];
+	foreach ($comments as $key => $value) {
+		$rawcomments[(string) $key] = $value;
+	}
+
+	$data = json_encode($rawcomments);
 
 	file_put_contents(get_root()."/data/comments.data", $data);
 }
 
 function sanitise_input($value) {
 	// TODO
-	return $value;
+	return htmlspecialchars(trim($value));
 }
 
 // $comment should be in format {name, email or null, comment}

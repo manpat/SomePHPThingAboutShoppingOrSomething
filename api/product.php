@@ -19,6 +19,10 @@ function get_products() {
 		}
 
 		$prods = json_decode($data, true);
+		if(is_null($prods)) {
+			add_error("Product database decode failed");
+			return [];
+		}
 	}
 
 	return $prods;

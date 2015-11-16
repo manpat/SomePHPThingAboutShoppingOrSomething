@@ -3,6 +3,7 @@
 require_once('../api/init.php');
 require_once('../api/cart.php');
 require_once('../api/product.php');
+require_once('../api/comment.php');
 
 $action = get_in($_POST, 'action');
 $nqtys = get_in($_POST, "qtys");
@@ -44,10 +45,28 @@ if($action === 'savecart'){
 
 	header("Location: ../productdetails.php?id=$prodID");
 
+// Adds a comment to a product description page
+}else if($action === 'addcomment'){
+	$prodID = (int) get_in($_POST, 'item');
+	$uname = trim(get_in($_POST, 'name', ''));
+	$email = get_in($_POST, 'email'); // optional
+	$comment = get_in($_POST, 'comment', '');
+
+	if($uname === '') {
+		add_error("Name is empty");
+
+	}else if($comment === '') {
+		add_error("Comment is empty");
+
+	}else{
+		add_comment($prodID, ['name'=>$uname, 'email'=>$email, 'comment'=>$comment]);
+	}
+
+	header("Location: ".$_SERVER['HTTP_REFERER']);
+
 }else{
 	add_error("Invalid action: " . json_encode($action));
-	// TODO: change to return rather than assume goto cartview
-	header("Location: ../cartview.php");
+	header("Location: " . $_SERVER['HTTP_REFERER']);
 }
 
 
