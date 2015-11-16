@@ -1,7 +1,7 @@
 <?php
 
-require('api/init.php');
-require('api/product.php');
+require_once('api/init.php');
+require_once('api/product.php');
 
 // Render set of products
 function render_productlist() {

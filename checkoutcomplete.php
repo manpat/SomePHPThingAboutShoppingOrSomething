@@ -6,8 +6,8 @@
 //	confirmed.
 // 
 
-require("api/init.php");
-require("api/cart.php");
+require_once("api/init.php");
+require_once("api/cart.php");
 
 function bail() {
 	// add_error($_POST);

@@ -4,17 +4,19 @@
 //
 // Product api
 
+$prods = null;
+
 function get_products() {
-	$data = file_get_contents("products.data");
-	if($data === false) {
-		add_error("Database open failed");
-		return [];
-	}
+	global $prods;
 
-	$prods = json_decode($data, true);
+	if($prods === null) {
+		$data = file_get_contents(dirname(__FILE__)."/../products.data");
+		if($data === false) {
+			add_error("Product database open failed");
+			return [];
+		}
 
-	foreach ($prods as $id => &$prod) {
-		$prod['id'] = (int) $id;
+		$prods = json_decode($data, true);
 	}
 
 	return $prods;

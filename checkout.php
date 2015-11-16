@@ -13,8 +13,8 @@
 
 // https://en.wikipedia.org/wiki/Bank_card_number
 
-require("api/init.php");
-require("api/cart.php");
+require_once("api/init.php");
+require_once("api/cart.php");
 
 function generate_month_options() {
 	$date = new DateTime();

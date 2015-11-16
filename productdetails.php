@@ -5,9 +5,9 @@
 // Displays a description of, the price of and the option to
 //	add to cart a product
 
-require('api/init.php');
-require('api/cart.php');
-require('api/product.php');
+require_once('api/init.php');
+require_once('api/cart.php');
+require_once('api/product.php');
 
 $product = null;
 

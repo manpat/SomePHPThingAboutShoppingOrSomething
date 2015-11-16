@@ -30,4 +30,8 @@ function reset_errors() {
 	$_SESSION['error'] = [];
 }
 
+require_once("product.php");
+
+get_products();
+
 ?>
