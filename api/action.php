@@ -64,6 +64,12 @@ if($action === 'savecart'){
 
 	header("Location: ".$_SERVER['HTTP_REFERER']);
 
+// Sets the timezone for the session
+}else if($action === 'settimezone'){
+	$_SESSION['timezone'] = get_in($_POST, 'timezone');
+	echo "ok";
+	die;
+
 }else{
 	add_error("Invalid action: " . json_encode($action));
 	header("Location: " . $_SERVER['HTTP_REFERER']);

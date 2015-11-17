@@ -41,7 +41,7 @@ function set_comments($coms) {
 }
 
 function sanitise_input($value) {
-	// TODO
+	// TODO: Make better?
 	return htmlspecialchars(trim($value));
 }
 

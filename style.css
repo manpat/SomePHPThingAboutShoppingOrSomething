@@ -182,6 +182,7 @@ h4 small {
 	display: block;
 	padding: 10px;
 	background: #444;
+	width: 100%;
 }
 
 form label {
