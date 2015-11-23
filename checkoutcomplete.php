@@ -4,7 +4,7 @@
 //
 // Displayed after checkout has been completed and
 //	confirmed.
-// 
+//
 
 require_once("api/init.php");
 require_once("api/cart.php");
@@ -12,7 +12,7 @@ require_once("api/cart.php");
 function bail() {
 	// add_error($_POST);
 	header("Location: checkout.php");
-	die;	
+	die;
 }
 
 // https://en.wikipedia.org/wiki/Luhn_algorithm
@@ -153,6 +153,11 @@ function process() {
 		bail();
 	}
 
+	// Convert month to English name
+	$month = new DateTime();
+	$month->setDate(0, (int) $vs["cardexprmonth"], 1);
+	$vs["cardexprmonth"] = $month->format("F");
+
 	// Save cart total for rendering
 	$spent = calculate_cart_total();
 
@@ -180,15 +185,14 @@ function render() {
 		echo "</tr>";
 	}
 	echo "</table>";
-	
+
 	echo "<br/>";
 	echo "<table>";
 		echo "<tr><td style='width:20%; font-weight: bold;'>Money Wasted</td><td>$$spent</td></tr>";
 	echo "</table>";
 
 	echo "<br/>";
-	echo "<p><a href='index.php' class='button'>Waste more money</a></p>";
-	// echo json_encode($_POST);
+	echo "<p><a href='index.php' class='button'>Spend <!-- Waste -->more money</a></p>";
 }
 
 process();

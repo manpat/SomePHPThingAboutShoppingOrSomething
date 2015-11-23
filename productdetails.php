@@ -13,26 +13,90 @@ require_once('api/product.php');
 $product = null;
 $comments = null;
 
+function process() {
+	global $product;
+	global $comments;
+
+	// Try and get the id from $_GET
+	$pid = (int) get_in($_GET, 'id', -1);
+	if($pid === -1) {
+		// If it wasn't available, bail
+		add_error("Missing product id");
+		return false;
+	}
+
+	// Then try to get product with that id
+	$product = get_product($pid);
+	if(!$product){
+		// If it doesn't exist, bail
+		add_error("Invalid product");
+		return false;
+	}
+
+	// Try to get comments for product $pid
+	$comments = get_in(get_comments(), $pid, []);
+
+	// Reverse chronological sort through the comments
+	usort($comments, function($c1, $c2) {
+		return ($c1['timestamp'] > $c2['timestamp']) ? -1 : 1;
+	});
+
+	return true;
+}
+
 function render() {
 	global $product;
+
+	// Don't bother rendering product details
+	//	of a null product. Should never get here
 	if(is_null($product)) {
 		echo "<p>Null product!</p>";
 		return;
 	}
 
+	// Get quantity of $product in cart
 	$qty = get_qty_in_cart($product['id']);
 
+	// Render thumbnail
 	echo "<div class='productdetailimg'><img src='img/${product['img']}'></img></div>";
+
+	// Render other details
 	echo "<h3>${product['name']}</h3>";
 	echo "<p>${product['description']}</p>";
 	echo "<p>Product price: $${product['price']}</p>";
-	echo "<form action='api/action.php' method='POST'>";
-		echo "<input type='hidden' name='action' value='addtocart'/>";
-		echo "<input type='hidden' name='item' value='${product['id']}'/>";
-		
-		echo "<button type='submit'>Add to cart, yo!</button>";
-		echo "<span style='padding-left: 5px'>In cart: $qty</span>";
-	echo "</form>";
+
+	// Render Add to Cart button 
+	echo "<button id='addtocart'>Add to cart, yo!</button>";
+	echo "<span style='padding-left: 5px'>In cart: $qty</span>";
+
+	?><script>
+		// Store a local copy of qty
+		//	Note: This is obviously an issue when two places
+		//	are updating the cart at the same time
+		// A better way would be to have the addtocart action
+		//	send the new value
+		var qty = <?php echo $qty; ?>;
+
+		// When Add to Cart button is clicked
+		$('#addtocart').click(function(e) {
+			var $this = $(this);
+
+			// Post request
+			$.post('api/action.php', {
+				action: 'addtocart',
+				item: <?php echo $product['id'];?>
+
+			}).success(function() {
+				// If the request, succeeds
+				//	update local copy
+				qty++;
+				
+				// and updated rendered value
+				$qty = $this.next();
+				$qty.text("In cart: " + qty);
+			});
+		});
+	</script><?php
 
 	render_comments();
 }
@@ -66,6 +130,8 @@ function render_comments() {
 		</div>
 		<div class='clear'></div>
 	<?php
+
+	// Render each existing comment
 	foreach ($comments as $key => $value) {
 		// Format timestamp and convert to users local timezone
 		//	if the timezone hasn't been set, assume +10
@@ -86,17 +152,27 @@ function render_comments() {
 
 	?>
 	<script>
+		// When keys are pressed in the comment box
 		$(".commententry textarea[name='comment']").keypress(function(e){
 			e = e || event;
+
+			// Check if the key was 'enter' and if ctrl or shift is pressed
 			if (e.keyCode === 13 && (e.ctrlKey || e.shiftKey)) {
+				// If so, submit the comment
 				$(".commententry form").submit();
 				return false;
 			}
+
+			// Otherwise continue as per usual
 			return true;
 		});
 
+		// When a comment is submitted
 		$(".commententry form").on('submit', function(e){
 			e = e || event;
+
+			// Ensure that both the name and comment fields are valid
+			//	Note: I'm treating email as optional
 			var $name = $(".commententry input[name='name']");
 			var $comment = $(".commententry textarea[name='comment']");
 
@@ -112,31 +188,11 @@ function render_comments() {
 	<?php
 }
 
-function process() {
-	global $product;
-	global $comments;
-
-	$pid = (int) get_in($_GET, 'id', -1);
-	if($pid === -1) {
-		add_error("Missing product id");
-		return;
-	}
-
-	$product = get_product($pid);
-	if(!$product){
-		add_error("Invalid product");
-		return;
-	}
-
-	$comments = get_in(get_comments(), $pid, []);
-
-	// Reverse chronological sort
-	usort($comments, function($c1, $c2) {
-		return ($c1['timestamp'] > $c2['timestamp']) ? -1 : 1;
-	});
+// If processing fails, return to product list
+if(!process()) {
+	header("Location: index.php");
+	die;
 }
-
-process();
 
 require('skeleton.php');
 

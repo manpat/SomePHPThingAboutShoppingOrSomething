@@ -6,11 +6,15 @@ require_once('api/product.php');
 // Render individual product
 function render_product($product) {
 	echo "<div class='tile'>";
-	echo "<a href='productdetails.php?id=${product["id"]}'>";
-	echo "<div class='tileimg'><img src='img/${product["img"]}'></img></div>";
-	echo "<div class='tilecap'>";
-	echo "<strong>${product['name']}</strong>";
-	echo "<figcaption>$${product['price']}</figcaption>";
+		// Tiles are giant anchor tags
+		echo "<a href='productdetails.php?id=${product["id"]}'>";
+			// Thumbnail
+			echo "<div class='tileimg'><img src='img/${product["img"]}'></img></div>";
+			echo "<div class='tilecap'>";
+				// Product name
+				echo "<strong>${product['name']}</strong>";
+				// Product price
+				echo "<figcaption>$${product['price']}</figcaption>";
 	echo "</div></a></div>";
 }
 

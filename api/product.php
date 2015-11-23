@@ -4,6 +4,8 @@
 //
 // Product api
 
+require_once("init.php");
+
 $prods = null;
 
 function get_products() {

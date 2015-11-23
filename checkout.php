@@ -33,7 +33,7 @@ function generate_year_options() {
 	$date = new DateTime(); // Today
 	$yearint = new DateInterval("P1Y"); // Represents one year
 
-	// 25 is a guestimation
+	// 25 years is a guestimation
 	for($i = 0; $i <= 25; $i++) {
 		$year = $date->format("Y");
 		$date->add($yearint);

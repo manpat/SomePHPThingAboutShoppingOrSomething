@@ -4,6 +4,8 @@
 //
 // Cart api
 
+require_once("init.php");
+
 function get_cart() {
 	// Try to get cart from session
 	$cart = get_in($_SESSION, 'cart');

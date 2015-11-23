@@ -1,5 +1,7 @@
 <?php
 
+require_once("init.php");
+
 $comments = null;
 
 // [productID: [{timestamp, name, email, comment}]]
