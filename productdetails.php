@@ -22,9 +22,10 @@ function render() {
 
 	$qty = get_qty_in_cart($product['id']);
 
-	echo "<p>Product name: ${product['name']}</p>";
+	echo "<div class='productdetailimg'><img src='img/${product['img']}'></img></div>";
+	echo "<h3>${product['name']}</h3>";
+	echo "<p>${product['description']}</p>";
 	echo "<p>Product price: $${product['price']}</p>";
-	echo "<p>Product description: ${product['description']}</p>";
 	echo "<form action='api/action.php' method='POST'>";
 		echo "<input type='hidden' name='action' value='addtocart'/>";
 		echo "<input type='hidden' name='item' value='${product['id']}'/>";
@@ -82,6 +83,33 @@ function render_comments() {
 		echo "<p>${value['comment']}</p>";
 		echo "</div>";
 	};
+
+	?>
+	<script>
+		$(".commententry textarea[name='comment']").keypress(function(e){
+			e = e || event;
+			if (e.keyCode === 13 && !(e.ctrlKey || e.shiftKey)) {
+				$(".commententry form").submit();
+				return false;
+			}
+			return true;
+		});
+
+		$(".commententry form").on('submit', function(e){
+			e = e || event;
+			var $name = $(".commententry input[name='name']");
+			var $comment = $(".commententry textarea[name='comment']");
+
+			if($name.val() === '') {
+				return false;
+			}else if($comment.val() === ''){
+				return false;
+			}
+
+			return true;
+		});
+	</script>
+	<?php
 }
 
 function process() {

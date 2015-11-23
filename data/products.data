@@ -3,7 +3,7 @@
 		"name":"Test Product", 
 		"price":100,
 		"img":"dickbutt.png",
-		"description":"This is a top quality product for people who like products a lot"
+		"description":"This is a top quality product for people who like products <strong>a lot</strong>"
 	},
 	{	"id": 1, 
 		"name":"Another Product", 
