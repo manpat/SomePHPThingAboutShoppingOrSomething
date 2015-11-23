@@ -88,7 +88,7 @@ function render_comments() {
 	<script>
 		$(".commententry textarea[name='comment']").keypress(function(e){
 			e = e || event;
-			if (e.keyCode === 13 && !(e.ctrlKey || e.shiftKey)) {
+			if (e.keyCode === 13 && (e.ctrlKey || e.shiftKey)) {
 				$(".commententry form").submit();
 				return false;
 			}

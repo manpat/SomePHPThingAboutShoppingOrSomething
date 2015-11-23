@@ -13,16 +13,17 @@ require_once("api/cart.php");
 function render() { ?>
 	<h1>Cart</h1>
 	<form action='api/action.php' method='POST'>
-		<table>
+		<table id='cartview'>
 			<thead>
 				<th>Name</th>
-				<th width='8%'>Price</th>
-				<th width='8%'>Quantity</th>
-				<th width='8%'>Total</th>
-				<th></th>
+				<th class='small'>Price</th>
+				<th class='small'>Quantity</th>
+				<th class='small'>Total</th>
+				<th></th> <!-- For the remove button -->
 			</thead>
-			<tbody id='itemlist'>
+			<tbody>
 				<?php
+					// Render each item in the cart
 					$cart = get_cart();
 					foreach ($cart as $item) {
 						render_item($item);
@@ -42,19 +43,25 @@ function render() { ?>
 	</form>
 
 	<script>
+		// When a .removebutton is clicked
 		$('.removebutton').click(function(e) {
-			var row = $(this).parent();
-			var id = row.data('id');
-			var qtybox = row.find('input');
+			// Get the nearest input
+			var qtybox = $(this).parent().find('input');
 
+			// Set it's value to zero and trigger
+			//	'change' callback (defined below)
 			qtybox.val(0);
 			qtybox.trigger('change');
 		});
 
-		$('#itemlist input[type=number]').on('change', function(e){
-			var $subtotal = $(this).parent().next();
+		// When an input in the cartview is changed
+		$('#cartview input[type=number]').on('change', function(e){
+			// Calculate a new subtotal
 			var price = $(this).parent().parent().data('price');
 			var subtotal = price * $(this).val();
+
+			// And set $subtotals text to that
+			var $subtotal = $(this).parent().next();
 			$subtotal.text("$"+subtotal.toFixed(2));
 		});
 	</script>
@@ -66,14 +73,15 @@ function render_item($item) {
 	$price = $prod['price'];
 	$qty = $item['qty'];
 
+	// Calculate the items subtotal
 	$subtotal = $qty * $price;
 
-	echo "<tr data-id='$id' data-price='$price'>";
-	echo "<td>${prod['name']}</td>";
-	printf("<td>$%.2f</td>", $price); // Don't print more than 2 dp's
-	echo "<td><input type='number' style='width:50px;' min='0' name='qtys[$id]' value='$qty'/></td>";
-	printf("<td>$%.2f</td>", $subtotal); // Don't print more than 2 dp's
-	echo "<td class='removebutton'>x</td>";
+	echo "<tr data-price='$price'>"; // Echo item price for client-side subtotal recalculation
+		echo "<td>${prod['name']}</td>";
+		printf("<td>$%.2f</td>", $price); // Don't print more than 2 dp's
+		echo "<td><input type='number' min='0' name='qtys[$id]' value='$qty'/></td>";
+		printf("<td>$%.2f</td>", $subtotal); // Don't print more than 2 dp's
+		echo "<td class='removebutton'>x</td>";
 	echo "</tr>";
 }
 

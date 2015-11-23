@@ -16,6 +16,7 @@
 require_once("api/init.php");
 require_once("api/cart.php");
 
+// Generates <option>s for credit card expiry month
 function generate_month_options() {
 	$date = new DateTime();
 
@@ -25,11 +26,14 @@ function generate_month_options() {
 	}
 }
 
+// Generates <option>s for credit card expiry year
+//	starting from this year and going to 25 years in
+//	the future
 function generate_year_options() {
-	$date = new DateTime();
-	$yearint = new DateInterval("P1Y");
+	$date = new DateTime(); // Today
+	$yearint = new DateInterval("P1Y"); // Represents one year
 
-	// Guestimation
+	// 25 is a guestimation
 	for($i = 0; $i <= 25; $i++) {
 		$year = $date->format("Y");
 		$date->add($yearint);
@@ -73,7 +77,8 @@ function render() { ?>
 	</form>
 
 	<!-- FOR TESTING ONLY  -->
-	<div style='position: absolute; bottom: 10px'>Visa: 4012888888881881</div>
+	<div style='position: absolute; bottom: 1em'>Visa: 4012888888881881</div>
+	<div style='position: absolute; bottom: 2em'>Mastercard: 5105105105105100</div>
 <?php }
 
 require("skeleton.php");

@@ -28,24 +28,29 @@ function validate_card($str, $type) {
 		return false;
 	}
 
-	// Check card number length and IIN
+	// Check card number lengths and IINs
 	$len = strlen($str);
 	if($type === "visa") {
+		// Validate length
 		if($len !== 13 && $len !== 16) {
 			add_error("Invalid card number length for card type visa");
 			return false;
 
+		// Validate IIN
 		}else if(substr($str, 0, 1) !== "4") {
-			add_error("Invalid iin for card type visa");
+			add_error("Invalid IIN for card type visa");
 			return false;
 		}
 
 	}else if($type === "mastercard") {
 		$iin = (int) substr($str, 0, 2);
+
+		// Validate length
 		if($len !== 16) {
 			add_error("Invalid card number length for card type mastercard");
 			return false;
 
+		// Validate IIN
 		}else if($iin < 51 || $iin > 55) {
 			add_error("Invalid iin for card type mastercard");
 			return false;
@@ -78,7 +83,15 @@ function validate_card($str, $type) {
 	return $checksum === $val;
 }
 
-$spent = 0;
+function validate_card_expiry_date($month, $year) {
+	$date = new DateTime();
+	$expr = new DateTime();
+	$expr->setDate((int) $year, ((int)$month)+1, 1);
+
+	return $date <= $expr;
+}
+
+// Map from fieldname to English
 $fieldtrans = [
 	"name" => "Full Name",
 	"phone" => "Phone Number",
@@ -89,7 +102,10 @@ $fieldtrans = [
 	"cardexpryear" => "Credit Card Expiry Year",
 	"gift" => "Gift Wrapped"
 ];
-$vs = [];
+
+// Saved values for rendering stage
+$spent = 0; // Cart total
+$vs = []; // Map of fields to values
 
 function process() {
 	global $fieldtrans;
@@ -103,10 +119,11 @@ function process() {
 
 	// Mandatory fields
 	$ps = ["name", "phone", "address", "cardtype", "cardnum", "cardexprmonth", "cardexpryear"];
-	$vs = []; // Map of fields to values
+	$vs = [];
 	$error = false;
 
-	// Verify that values exist for each mandatory field
+	// For each mandatory field verify that a value was recieved
+	//	and is not an empty string
 	foreach($ps as $p) {
 		$v = get_in($_POST, $p);
 		$vs[$p] = $v;
@@ -119,15 +136,24 @@ function process() {
 
 	$vs["gift"] = (get_in($_POST, "gift") !== null) ? "Yes":"No";
 
-	// One of the mandatory fields is missing
-	// Bail out
+	// One of the mandatory fields is missing or empty
+	//	so bail out
 	if($error) bail();
 
+	// Validate the card number given the type, and
+	//	bail if it doesn't quite add up
 	if(!validate_card($vs["cardnum"], $vs["cardtype"])) {
 		add_error("Card validation failed");
 		bail();
 	}
 
+	// Validate that the card expiry date hasn't already passed
+	if(!validate_card_expiry_date($vs["cardexprmonth"], $vs["cardexpryear"])) {
+		add_error("Card expiry date already passed");
+		bail();
+	}
+
+	// Save cart total for rendering
 	$spent = calculate_cart_total();
 
 	// Clear cart so user can't rebuy things
@@ -143,9 +169,13 @@ function render() {
 
 	echo "<table>";
 	echo "<thead><th>Details</th><th></th></thead>";
+	// Foreach value saved
 	foreach ($vs as $k => $v) {
+		// Render a row containing
 		echo "<tr>";
+		// it's English name
 		echo "<td style='width:20%; font-weight: bold;'>${fieldtrans[$k]}</td>";
+		// and it's value
 		echo "<td>$v</td>";
 		echo "</tr>";
 	}

@@ -16,7 +16,7 @@ function render_product($product) {
 
 // Render set of products
 function render() {
-	echo "<h1>Products</h1>";
+	echo "<h1>Rocks For Adoption</h1>";
 
 	foreach (get_products() as $product) {
 		render_product($product);

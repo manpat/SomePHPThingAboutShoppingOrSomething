@@ -81,20 +81,12 @@ a.button {
 	background-color: #444;
 	/* Top right bottom left */
 	padding: 15px 20px 15px 20px;
+	cursor: pointer;
+	display: inline-block;
 }
 
 a.button:hover {
 	background-color: #474747;
-}
-
-.removebutton {
-	color: #d33;
-	font-weight: bold;
-	cursor: pointer;
-	width: 3%;
-}
-.removebutton:hover {
-	color: #d55;
 }
 
 button {
@@ -105,6 +97,7 @@ button {
 	background-color: #444;
 	/* Top right bottom left */
 	padding: 15px 20px 15px 20px;
+	cursor: pointer;
 }
 
 button:hover {
@@ -254,4 +247,23 @@ h4 small {
 
 .productdetailimg {
 	float: right;
+}
+
+/* Cart view */
+#cartview input[type=number] {
+	width: 50px;
+}
+
+#cartview .small {
+	width: 8%;
+}
+
+.removebutton {
+	color: #d33;
+	font-weight: bold;
+	cursor: pointer;
+	width: 3%;
+}
+.removebutton:hover {
+	color: #d55;
 }
