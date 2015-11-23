@@ -5,10 +5,6 @@ require_once('api/product.php');
 
 // Render individual product
 function render_product($product) {
-	// echo "<tr>";
-	// echo "<td><a href='productdetails.php?id=${product["id"]}'>${product['name']}</a></td>";
-	// echo "<td width='10%'>${product['price']}</td>";
-	// echo "</tr>";
 	echo "<div class='tile'>";
 	echo "<a href='productdetails.php?id=${product["id"]}'>";
 	echo "<div class='tileimg'><img src='img/${product["img"]}'></img></div>";

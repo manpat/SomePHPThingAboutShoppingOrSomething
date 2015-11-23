@@ -1,20 +1,44 @@
 [
-	{	"id": 0, 
-		"name":"Test Product", 
+	{	"id": 0,
+		"name":"Kinda Blue Rock",
 		"price":100,
-		"img":"dickbutt.png",
-		"description":"This is a top quality product for people who like products <strong>a lot</strong>"
+		"img":"blue.jpg",
+		"description":"This is a top quality rock for people who like rocks <strong>a lot</strong>. It's got a little bit of blue in it."
 	},
-	{	"id": 1, 
-		"name":"Another Product", 
-		"price":65,
-		"img":"dickbutt.png",
-		"description":"This is a mid range product for people who like products but not too much"
+	{	"id": 1,
+		"name":"Smooth Rock",
+		"price":85,
+		"img":"smoothstone.jpg",
+		"description":"This is a nice, well-rounded rock that Just Works™ in all situations."
 	},
-	{	"id": 2, 
-		"name":"Cheap Product", 
+	{	"id": 2,
+		"name":"Black Rock",
+		"price":70,
+		"img":"black.jpg",
+		"description":"Very black. Good for situations that black rocks are good for."
+	},
+	{	"id": 3,
+		"name":"Lava Rock",
+		"price":42,
+		"img":"lava.jpg",
+		"description":"This rock kinda looks like lava."
+	},
+	{	"id": 4,
+		"name":"A Rock That's A Little Bit Yellow",
+		"price":24.95,
+		"img":"stone.jpg",
+		"description":"This rock is a little bit yellow and is kinda pointy."
+	},
+	{	"id": 5,
+		"name":"Generic Rock",
 		"price":10,
+		"img":"FC-11.jpg",
+		"description":"This is a rock for people who like rocks but are on a very tight budget."
+	},
+	{	"id": 6,
+		"name":"Not a Rock",
+		"price":-3.14,
 		"img":"dickbutt.png",
-		"description":"This is a product for people who like products but are on a tight budget"
+		"description":"<span style='color:lime'>Please take this. I don't want it</span>"
 	}
 ]

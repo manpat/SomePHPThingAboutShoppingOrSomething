@@ -87,6 +87,16 @@ a.button:hover {
 	background-color: #474747;
 }
 
+.removebutton {
+	color: #d33;
+	font-weight: bold;
+	cursor: pointer;
+	width: 3%;
+}
+.removebutton:hover {
+	color: #d55;
+}
+
 button {
 	border: 0px;
 
