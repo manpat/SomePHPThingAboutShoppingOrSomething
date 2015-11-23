@@ -157,7 +157,7 @@ function render() {
 	echo "</table>";
 
 	echo "<br/>";
-	echo "<p><a href='productlist.php' class='button'>Waste more money</a></p>";
+	echo "<p><a href='index.php' class='button'>Waste more money</a></p>";
 	// echo json_encode($_POST);
 }
 

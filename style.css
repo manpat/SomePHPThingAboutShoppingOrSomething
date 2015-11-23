@@ -170,9 +170,6 @@ h4 small {
 	margin-left: 10px;
 	color: #aaa;
 }
-	text-decoration: none;
-	color: #aaa;
-}
 
 .commententry {
 	display: block;
@@ -181,11 +178,11 @@ h4 small {
 	width: 100%;
 }
 
-form label {
+.commententry form label {
 	width: 50px;
 	display: inline-block;
 }
-form label + input {
+.commententry form label + input {
 	width: 300px;
 }
 
