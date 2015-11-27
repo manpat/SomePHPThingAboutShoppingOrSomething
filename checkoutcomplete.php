@@ -8,6 +8,7 @@
 
 require_once("api/init.php");
 require_once("api/cart.php");
+require_once("api/checkout.php");
 require_once("api/validation.php");
 
 function bail() {
@@ -18,24 +19,12 @@ function bail() {
 // visa: 4012888888881881
 // mastercard: 5105105105105100
 
-// Map from fieldname to English
-$fieldtrans = [
-	"name" => "Full Name",
-	"phone" => "Phone Number",
-	"address" => "Address",
-	"cardtype" => "Credit Card Type",
-	"cardnum" => "Credit Card Number",
-	"cardexprmonth" => "Credit Card Expiry Month",
-	"cardexpryear" => "Credit Card Expiry Year",
-	"gift" => "Gift Wrapped"
-];
-
 // Saved values for rendering stage
 $spent = 0; // Cart total
 $vs = []; // Map of fields to values
 
 function process() {
-	global $fieldtrans;
+	// global $fieldtrans;
 	global $spent;
 	global $vs;
 
@@ -46,39 +35,46 @@ function process() {
 
 	// Mandatory fields
 	$ps = ["name", "phone", "address", "cardtype", "cardnum", "cardexprmonth", "cardexpryear"];
-	$vs = [];
+	// $vs = [];
 	$error = false;
 
 	// For each mandatory field verify that a value was recieved
 	//	and is not an empty string
-	foreach($ps as $p) {
-		$v = get_in($_POST, $p);
-		$vs[$p] = $v;
+	// foreach($ps as $p) {
+	// 	$v = get_in($_POST, $p);
+	// 	$vs[$p] = $v;
 
-		if(is_null($v) || $v === "") {
-			add_error("Missing ${fieldtrans[$p]}");
-			$error = true;
-		}
+	// 	if(is_null($v) || $v === "") {
+	// 		add_error("Missing ${fieldtrans[$p]}");
+	// 		$error = true;
+	// 	}
+	// }
+
+
+	// // One of the mandatory fields is missing or empty
+	// //	so bail out
+	// if($error) bail();
+
+	// // Validate the card number given the type, and
+	// //	bail if it doesn't quite add up
+	// if(!validate_card($vs["cardnum"], $vs["cardtype"])) {
+	// 	add_error("Card validation failed");
+	// 	bail();
+	// }
+
+	// // Validate that the card expiry date hasn't already passed
+	// if(!validate_card_expiry_date($vs["cardexprmonth"], $vs["cardexpryear"])) {
+	// 	add_error("Card expiry date already passed");
+	// 	bail();
+	// }
+
+	$vs = get_in($_SESSION, "checkout_details");
+	if(is_null($vs)) {
+		add_error("Missing checkout details");
+		header("Location: checkout.php");
 	}
 
-	$vs["gift"] = (get_in($_POST, "gift") !== null) ? "Yes":"No";
-
-	// One of the mandatory fields is missing or empty
-	//	so bail out
-	if($error) bail();
-
-	// Validate the card number given the type, and
-	//	bail if it doesn't quite add up
-	if(!validate_card($vs["cardnum"], $vs["cardtype"])) {
-		add_error("Card validation failed");
-		bail();
-	}
-
-	// Validate that the card expiry date hasn't already passed
-	if(!validate_card_expiry_date($vs["cardexprmonth"], $vs["cardexpryear"])) {
-		add_error("Card expiry date already passed");
-		bail();
-	}
+	$vs["gift"] = $vs["gift"] ? "Yes":"No";
 
 	// Convert month to English name
 	$month = new DateTime();
@@ -89,7 +85,7 @@ function process() {
 	$spent = calculate_cart_total();
 
 	// Clear cart so user can't rebuy things
-	set_cart([]);
+	// set_cart([]);
 	////////////////////////////////////////////////////////// YO
 }
 
@@ -107,7 +103,7 @@ function render() {
 		// Render a row containing
 		echo "<tr>";
 		// it's English name
-		echo "<td style='width:20%; font-weight: bold;'>${fieldtrans[$k]}</td>";
+		echo "<td style='width:20%; font-weight: bold;'>".checkout_field_to_english($k)."</td>";
 		// and it's value
 		echo "<td>$v</td>";
 		echo "</tr>";

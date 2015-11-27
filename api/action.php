@@ -1,15 +1,53 @@
 <?php
 
-require_once('../api/init.php');
-require_once('../api/cart.php');
-require_once('../api/product.php');
-require_once('../api/comment.php');
+require_once('init.php');
+require_once('cart.php');
+require_once('product.php');
+require_once('comment.php');
+require_once('checkout.php');
+
+// Used to respond to async post requests
+function echo_success($data = null) {
+	if($data === null) {
+		$data = [];
+	}
+
+	header('Content-Type: application/json');
+	echo json_encode(array_merge(["success" => true], $data));
+	die;
+}
+
+// Used to respond to async post requests
+function echo_fail($reason, $data = null) {
+	if($data === null) {
+		$data = [];
+	}
+
+	header('Content-Type: application/json');
+	echo json_encode(array_merge(["success" => false, "reason" => $reason], $data));
+	die;
+}
 
 $action = get_in($_POST, 'action');
-$nqtys = get_in($_POST, "qtys");
+
+// ASYNC POST Request
+if($action === 'attemptcheckout') {
+	$details = get_in($_POST, 'details');
+	if(is_null($details)) {
+		echo_fail("missing_details");
+	}
+
+	$res = process_checkout_details($details);
+	if(!$res["success"]) {
+		echo_fail($res["reason"], $res);
+	}
+
+	echo_success($details);
+}
 
 // Saves the updated quantities of items in the cart
 if($action === 'savecart'){
+	$nqtys = get_in($_POST, "qtys");
 	update_cart_quantities($nqtys);
 	header("Location: ../cartview.php");
 
@@ -21,6 +59,7 @@ if($action === 'savecart'){
 // Updates the cart and proceeds to redirects to checkout
 //	if the cart isn't empty
 }else if($action === 'checkout'){
+	$nqtys = get_in($_POST, "qtys");
 	update_cart_quantities($nqtys);
 
 	if(count(get_cart()) === 0) {

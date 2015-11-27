@@ -44,7 +44,8 @@ function generate_year_options() {
 
 function render() { ?>
 	<h1>Checkout, yo!</h1>
-	<form action='checkoutcomplete.php' method='POST'>
+	<!-- action='checkoutcomplete.php' method='POST' -->
+	<form id='checkoutform'>
 		<table class='form'>
 			<tr><td><label>Full Name</label></td>
 				<td><input type='text' name='name'/></td></tr>
@@ -59,7 +60,7 @@ function render() { ?>
 				<td><input type='checkbox' name='gift'/></td></tr>
 
 			<tr><td><label>Credit Card Type</label></td>
-				<td><input type='radio' name='cardtype' value='visa'>Visa</input>
+				<td><input type='radio' name='cardtype' value='visa' default>Visa</input>
 					<input type='radio' name='cardtype' value='mastercard'>Mastercard</input></td></tr>
 
 			<tr><td><label>Credit Card Number</label></td>
@@ -79,6 +80,34 @@ function render() { ?>
 	<!-- FOR TESTING ONLY  -->
 	<div style='position: absolute; bottom: 1em'>Visa: 4012888888881881</div>
 	<div style='position: absolute; bottom: 2em'>Mastercard: 5105105105105100</div>
+
+	<script>
+		$('#checkoutform').submit(function(event){
+			event.preventDefault();
+			var $form = $(this);
+			
+			var data = {};
+			$.each($form.serializeArray(), function(i, kv){
+				data[kv.name] = kv.value;
+			});
+
+			$.post('api/action.php', {action: 'attemptcheckout', details: data})
+			.done(function(d){
+				if(d.success !== true) {
+					console.log("Request failed");
+					console.log(d.reason);
+					console.log(d);
+					return;
+				}
+
+				console.log("Request success!");
+				window.location.href='checkoutcomplete.php';
+				// Goto checkoutcomplete
+			});
+
+			console.log(data);
+		});
+	</script>
 <?php }
 
 require("skeleton.php");
