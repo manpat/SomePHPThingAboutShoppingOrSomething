@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Shopping or some shit</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<script src="js/jquery-2.1.4.min.js"></script>
 
 	<script>
@@ -31,8 +31,8 @@
 			reset_errors();
 		}
 	?>
-	<div class='content'>
+	<section>
 		<?php render(); ?>
-	</div>
+	</section>
 </body>
 </html>

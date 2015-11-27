@@ -14,7 +14,7 @@ function render_product($product) {
 				// Product name
 				echo "<strong>${product['name']}</strong>";
 				// Product price
-				echo "<figcaption>$${product['price']}</figcaption>";
+				echo "<div>$${product['price']}</div>";
 	echo "</div></a></div>";
 }
 

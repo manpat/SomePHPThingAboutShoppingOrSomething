@@ -58,7 +58,7 @@ function render() {
 	$qty = get_qty_in_cart($product['id']);
 
 	// Render thumbnail
-	echo "<div class='productdetailimg'><img src='img/${product['img']}'></img></div>";
+	echo "<figure class='right'><img src='img/${product['img']}' alt='${product['name']}'></img></figure>";
 
 	// Render other details
 	echo "<h3>${product['name']}</h3>";
@@ -70,13 +70,6 @@ function render() {
 	echo "<span style='padding-left: 5px'>In cart: $qty</span>";
 
 	?><script>
-		// Store a local copy of qty
-		//	Note: This is obviously an issue when two places
-		//	are updating the cart at the same time
-		// A better way would be to have the addtocart action
-		//	send the new value
-		var qty = <?php echo $qty; ?>;
-
 		// When Add to Cart button is clicked
 		$('#addtocart').click(function(e) {
 			var $this = $(this);
@@ -87,13 +80,8 @@ function render() {
 				item: <?php echo $product['id'];?>
 
 			}).success(function() {
-				// If the request, succeeds
-				//	update local copy
-				qty++;
-				
-				// and updated rendered value
-				$qty = $this.next();
-				$qty.text("In cart: " + qty);
+				// Go to cart page
+				window.location.href = 'cartview.php';
 			});
 		});
 	</script><?php
@@ -121,11 +109,11 @@ function render_comments() {
 				<input type='email' name='email'/>
 				<br/>
 
-				<span>
+				<div>
 					<div class='moveoverpls'></div>
 					<textarea name='comment'></textarea>
 					<button type='submit'>Comment</button>
-				</span>
+				</div>
 			</form>
 		</div>
 		<div class='clear'></div>
@@ -150,8 +138,7 @@ function render_comments() {
 		echo "</div>";
 	};
 
-	?>
-	<script>
+	?><script>
 		// When keys are pressed in the comment box
 		$(".commententry textarea[name='comment']").keypress(function(e){
 			e = e || event;
@@ -184,8 +171,7 @@ function render_comments() {
 
 			return true;
 		});
-	</script>
-	<?php
+	</script><?php
 }
 
 // If processing fails, return to product list
