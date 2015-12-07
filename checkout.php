@@ -74,27 +74,34 @@ function render() {
 	<form id='checkoutform'>
 		<table class='form'>
 			<tr><td><label>Full Name</label></td>
-				<td><input type='text' name='name' value='<?= $name ?>'/></td></tr>
+				<td><input type='text' name='name' value='<?= $name ?>'/>
+					<span class='error right'></span></td></tr>
 
 			<tr><td><label>Phone Number</label></td>
-				<td><input type='text' name='phone' value='<?= $phone ?>'/></td></tr>
+				<td><input type='text' name='phone' value='<?= $phone ?>'/>
+					<span class='error right'></span></td></tr>
 
 			<tr><td><label>Address</label></td>
-				<td><input type='text' name='address' value='<?= $address ?>'/></td></tr>
+				<td><input type='text' name='address' value='<?= $address ?>'/>
+					<span class='error right'></span></td></tr>
 
 			<tr><td><label>Gift Wrapped</label></td>
-				<td><input type='checkbox' name='gift' <?= $gift?"checked":"" ?>/></td></tr>
+				<td><input type='checkbox' name='gift' <?= $gift?"checked":"" ?>/>
+					<span class='error right'></span></td></tr>
 
 			<tr><td><label>Credit Card Type</label></td>
 				<td><input type='radio' name='cardtype' value='visa' <?= $isMC?"":"checked" ?>>Visa</input>
-					<input type='radio' name='cardtype' value='mastercard' <?= $isMC?"checked":"" ?>>Mastercard</input></td></tr>
+					<input type='radio' name='cardtype' value='mastercard' <?= $isMC?"checked":"" ?>>Mastercard</input>
+					<span class='error right'></span></td></tr>
 
 			<tr><td><label>Credit Card Number</label></td>
-				<td><input type='text' name='cardnum' value='<?= $cardnum ?>'/></td></tr>
+				<td><input type='text' name='cardnum' value='<?= $cardnum ?>'/>
+					<span class='error right'></span></td></tr>
 
 			<tr><td><label>Credit Card Expiry</label></td>
 				<td><select name='cardexprmonth'> <?php generate_month_options($cardexprmonth);?> </select>
 					<select name='cardexpryear'> <?php generate_year_options($cardexpryear);?> </select>
+					<span class='error right'></span>
 				</td></tr>
 		</table>
 
@@ -119,31 +126,25 @@ function render() {
 
 			$.post('api/action.php', {action: 'attemptcheckout', details: data})
 			.done(function(d){
+				console.log(d);
 				if(d.success !== true) {
-					console.log("Request failed");
-					console.log(d.reason);
-					console.log(d);
-
 					if(d.reason === "missing_fields") {
 						for(var i = 0; i < d.fields.length; i++) {
 							var field = d.fields[i];
-							$form.find("[name=" + field + "]").addClass("error");
+							var error = $form.find("[name=" + field + "]").next();
+							error.text("Missing");
 						}
 
 					}else if(d.reason === "card_validation_failed"){
-						$form.find("[name=cardnum]").addClass("error");
-						// addError("Card Number invalid");
+						$form.find("[name=cardnum]").next().text("Card Number invalid");
 
 					}else if(d.reason === "card_expiry_passed"){
-						$form.find("[name=cardexpryear]").addClass("error");
-						$form.find("[name=cardexprmonth	]").addClass("error");
-						// addError("Credit card expiry has aleady passed");
+						$form.find("[name=cardexpryear]").next().text("Expiry aleady passed");
 					}
 
 					return;
 				}
 
-				console.log("Request success!");
 				window.location.href='checkoutcomplete.php';
 			});
 

@@ -74,7 +74,7 @@ section {
 }
 
 .error {
-	background: #f99;
+	color: #f33;
 }
 
 figure {
@@ -156,7 +156,7 @@ tbody tr:nth-child(odd) {
 }
 
 .form input[type=text] {
-	width: 100%;
+	width: 60%;
 	border: 2px solid white;
 }
 
