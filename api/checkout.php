@@ -57,6 +57,7 @@ function process_checkout_details($details) {
 	}
 
 	$_SESSION["checkout_details"] = $vs;
+	setcookie("checkout_details", json_encode($vs));
 
 	return ["success"=>true];
 }

@@ -73,6 +73,10 @@ section {
 	clear: both;
 }
 
+.error {
+	background: #f99;
+}
+
 figure {
 	margin: 0px;
 	margin-top: 1em;
@@ -139,7 +143,7 @@ th:first-child, td:first-child{
 }
 
 th:last-child, td:last-child{
-	padding-right: 8px;
+	padding-right: 15px;
 }
 
 thead {
@@ -153,6 +157,7 @@ tbody tr:nth-child(odd) {
 
 .form input[type=text] {
 	width: 100%;
+	border: 2px solid white;
 }
 
 .form td:first-child {

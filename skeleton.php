@@ -4,6 +4,7 @@
 	<title>Shopping or some shit</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<script src="js/jquery-2.1.4.min.js"></script>
+	<script src="js/main.js"></script>
 
 	<script>
 	$(document).ready(function() {
@@ -25,7 +26,7 @@
 
 		if(count($errors) > 0) {
 			foreach ($errors as $e) {
-				echo "<div style='color:red'>$e</div>";
+				echo "<div class='error'>$e</div>";
 			}
 
 			reset_errors();
