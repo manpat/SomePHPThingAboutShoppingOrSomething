@@ -15,6 +15,7 @@
 
 require_once("api/init.php");
 require_once("api/cart.php");
+require_once("api/checkout.php");
 
 // Generates <option>s for credit card expiry month
 function generate_month_options($savedValue) {
@@ -54,24 +55,7 @@ function generate_year_options($savedValue) {
 	}
 }
 
-$savedFields = null;
-
-function process() {
-	global $savedFields;
-
-	$savedFields = get_in($_SESSION, "checkout_details");
-	if(!is_null($savedFields)) return;
-
-	$savedFields = get_in($_COOKIE, "checkout_details");
-	if(!is_null($savedFields)) {
-		$savedFields = json_decode($savedFields);
-		return;
-	}
-
-	$savedFields = [];
-}
-
-process();
+$savedFields = get_checkout_details();
 
 function render() { 
 	global $savedFields;
@@ -147,9 +131,12 @@ function render() {
 						}
 
 					}else if(d.reason === "card_validation_failed"){
+						$form.find("[name=cardnum]").addClass("error");
 						// addError("Card Number invalid");
 
 					}else if(d.reason === "card_expiry_passed"){
+						$form.find("[name=cardexpryear]").addClass("error");
+						$form.find("[name=cardexprmonth	]").addClass("error");
 						// addError("Credit card expiry has aleady passed");
 					}
 

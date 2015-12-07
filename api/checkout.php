@@ -57,7 +57,24 @@ function process_checkout_details($details) {
 	}
 
 	$_SESSION["checkout_details"] = $vs;
-	setcookie("checkout_details", json_encode($vs));
+
+	$expiryTime = time()+60*60*24*60; // 60 days
+	setcookie("checkout_details", json_encode($vs), $expiryTime, '/');
+
+	// TODO: Write to log
 
 	return ["success"=>true];
+}
+
+function get_checkout_details() {
+	$details = get_in($_SESSION, "checkout_details");
+	if(!is_null($details)) return $details;
+
+	$details = get_in($_COOKIE, "checkout_details");
+	if(!is_null($details)) {
+		$details = json_decode($details, true);
+		return $details;
+	}
+
+	return [];
 }

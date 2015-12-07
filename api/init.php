@@ -9,6 +9,9 @@ session_start();
 // Tests if a key exists in a map and returns it
 //	otherwise returns a default value
 function get_in($array, $key, $default = null) {
+	if(gettype($array) === 'object')
+		$array = (array) $array;
+
 	return isset($array[$key]) ? $array[$key] : $default;
 }
 
