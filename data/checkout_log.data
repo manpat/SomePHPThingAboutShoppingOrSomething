@@ -1,0 +1,3 @@
+{"name":"safdasdfasf","phone":"41515135351","address":"sagsgsgsgasg","cardtype":"mastercard","cardnum":"5105105105105100","cardexprmonth":10,"cardexpryear":2017,"gift":true,"purchases":{"1":9},"total":765}
+{"name":"Some guy","phone":"123-555-6767","address":"123 Fake St, Fakesville","cardtype":"visa","cardnum":"4111111111111111","cardexprmonth":12,"cardexpryear":2040,"gift":true,"purchases":{"0":15,"6":1000,"1":15,"2":5,"5":2},"total":5}
+{"name":"Some guy","phone":"123-555-6767","address":"123 Fake St, Fakesville","cardtype":"visa","cardnum":"4111111111111111","cardexprmonth":12,"cardexpryear":2040,"gift":true,"purchases":{"3":1},"total":42}

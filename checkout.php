@@ -148,7 +148,7 @@ function render() {
 				window.location.href='checkoutcomplete.php';
 			});
 
-			console.log(data);
+			// console.log(data);
 		});
 	</script>
 <?php }

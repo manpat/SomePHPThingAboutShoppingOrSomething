@@ -51,6 +51,9 @@ function process_checkout_details($details) {
 		return ["success" => false, "reason" => "card_validation_failed"];
 	}
 
+	$vs["cardexprmonth"] = (int) $vs["cardexprmonth"];
+	$vs["cardexpryear"] = (int) $vs["cardexpryear"];
+
 	// Validate that the card expiry date hasn't already passed
 	if(!validate_card_expiry_date($vs["cardexprmonth"], $vs["cardexpryear"])) {
 		return ["success" => false, "reason" => "card_expiry_passed"];
@@ -61,7 +64,27 @@ function process_checkout_details($details) {
 	$expiryTime = time()+60*60*24*60; // 60 days
 	setcookie("checkout_details", json_encode($vs), $expiryTime, '/');
 
-	// TODO: Write to log
+	$checkoutLog = @fopen(get_root()."/data/checkout_log.data", "ab");
+	if($checkoutLog === false) {
+		return ["success"=>false, "reason"=>"database_open_fail"];
+	}
+
+	$cart = get_cart();
+	$pidQtyPairs = [];
+	foreach ($cart as $id => $pair) {
+		$pidQtyPairs[(int) $id] = (int) $pair["qty"];
+	}
+
+	$vs["purchases"] = $pidQtyPairs;
+	$vs["total"] = calculate_cart_total();
+
+	$jsonData = json_encode($vs);
+	$logSuccess = fwrite($checkoutLog, $jsonData . "\n");
+	fclose($checkoutLog);
+
+	if($logSuccess === false) {
+		return ["success"=>false, "reason"=>"database_write_fail"];
+	}
 
 	return ["success"=>true];
 }

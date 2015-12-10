@@ -30,7 +30,9 @@ function echo_fail($reason, $data = null) {
 
 $action = get_in($_POST, 'action');
 
-// ASYNC POST Request
+// Asynchronous POST Requests
+
+// Verifies details from checkout page
 if($action === 'attemptcheckout') {
 	$details = get_in($_POST, 'details');
 	if(is_null($details)) {
@@ -39,11 +41,18 @@ if($action === 'attemptcheckout') {
 
 	$res = process_checkout_details($details);
 	if(!$res["success"]) {
-		echo_fail($res["reason"], $res);
+		echo_fail(get_in($res, "reason", "[unknown_reason]"), $res);
 	}
 
 	echo_success($details);
+
+// Sets the timezone for the session
+}else if($action === 'settimezone'){
+	$_SESSION['timezone'] = get_in($_POST, 'timezone');
+	echo_success();
 }
+
+// Synchronous POST Requests
 
 // Saves the updated quantities of items in the cart
 if($action === 'savecart'){
@@ -102,12 +111,6 @@ if($action === 'savecart'){
 	}
 
 	header("Location: ".$_SERVER['HTTP_REFERER']);
-
-// Sets the timezone for the session
-}else if($action === 'settimezone'){
-	$_SESSION['timezone'] = get_in($_POST, 'timezone');
-	echo "ok";
-	die;
 
 }else{
 	add_error("Invalid action: " . json_encode($action));
